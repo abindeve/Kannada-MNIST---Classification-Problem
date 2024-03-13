@@ -58,7 +58,7 @@ def display_metrics_comparison(metrics_df):
     
 
 def main():
-    ds_dir = "Kannada_MNIST"
+    ds_dir = "D:\\final project\\Kannada_MNIST\\kANNADA_MNIST"
     X_train = np.load(os.path.join(ds_dir, 'X_kannada_MNIST_train.npz'))['arr_0']
     X_test = np.load(os.path.join(ds_dir, 'X_kannada_MNIST_test.npz'))['arr_0']
     y_train = np.load(os.path.join(ds_dir, 'y_kannada_MNIST_train.npz'))['arr_0']
