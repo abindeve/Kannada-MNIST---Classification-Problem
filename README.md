@@ -1,0 +1,1 @@
+# kANNADA_MNIST
