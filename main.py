@@ -55,8 +55,6 @@ def display_roc_auc_curve(classifier, X_train_pca, y_train, X_test_pca, y_test, 
 def display_metrics_comparison(metrics_df):
     st.subheader("Model Comparison Table")
     st.write(metrics_df)
-    
-
 def main():
     ds_dir = "D:\\final project\\Kannada_MNIST\\kANNADA_MNIST"
     X_train = np.load(os.path.join(ds_dir, 'X_kannada_MNIST_train.npz'))['arr_0']
@@ -73,6 +71,7 @@ def main():
     selected_models = st.sidebar.multiselect('Select Models', model_names, default=model_names)
     selected_pca_components = st.sidebar.multiselect('Select PCA Components', pca_components, default=[20])
 
+    metrics_data = []  # List to store metrics for all models
     for selected_model in selected_models:
         for selected_component in selected_pca_components:
 
@@ -90,7 +89,6 @@ def main():
             precision, recall, f1 = calculate_metrics(y_test, y_pred)
 
             # Display metrics
-            
             st.write(f"Model: {selected_model}, PCA Components: {selected_component}")
             st.write(f"Precision: {precision}")
             st.write(f"Recall: {recall}")
@@ -102,25 +100,20 @@ def main():
             # Display ROC-AUC curve
             display_roc_auc_curve(classifier, X_train_pca, y_train, X_test_pca, y_test, selected_model)
 
-            # Store metrics for comparison
-            precisions = []
-            recalls = []
-            f1_scores = []
-
-            precisions.append(precision)
-            recalls.append(recall)
-            f1_scores.append(f1)
-
-            # Display metrics comparison table
-            metrics_df = pd.DataFrame({
-                'Model': [selected_model],
-                'PCA Components': [selected_component],
-                'Precision': precisions,
-                'Recall': recalls,
-                'F1-Score': f1_scores
+            # Append metrics to the list
+            metrics_data.append({
+                'Model': selected_model,
+                'PCA Components': selected_component,
+                'Precision': precision,
+                'Recall': recall,
+                'F1-Score': f1
             })
 
-            display_metrics_comparison(metrics_df)
+    # Create DataFrame from metrics data
+    metrics_df = pd.DataFrame(metrics_data)
+
+    # Display metrics comparison table
+    display_metrics_comparison(metrics_df)
 
 if __name__ == "__main__":
     main()
