@@ -44,12 +44,14 @@ def display_confusion_matrix(y_test, y_pred, model):
     plt.ylabel('True Label')
     st.pyplot()
 
+
 def display_roc_auc_curve(classifier, X_train_pca, y_train, X_test_pca, y_test, model):
     st.title(f"ROC-AUC Curve - {model}")
     fig, ax = plt.subplots(figsize=(6, 4))
     visualizer = ROCAUC(classifier, classes=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], ax=ax)
     visualizer.fit(X_train_pca, y_train)
-    visualizer.score(X_test_pca, y_test)
+    visualizer.score(X_test_pca, y_test)   
+    
     st.pyplot(fig)
 
 def display_metrics_comparison(metrics_df):
